@@ -1,11 +1,15 @@
 package com.assignment.recipe.models;
 
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public class UserDetailsModel implements UserDetails {
+    String ROLE_PREFIX = "ROLE_";
 
     private final User user;
 
@@ -15,8 +19,12 @@ public class UserDetailsModel implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        String[] userRoles = user.getRoles().stream().toArray(String[]::new);
-        return AuthorityUtils.createAuthorityList(userRoles);
+        return user.getRoles()
+                .stream()
+                .map(role -> ROLE_PREFIX + role)
+                .map(
+                        SimpleGrantedAuthority::new
+                ).collect(Collectors.toSet());
     }
 
     @Override

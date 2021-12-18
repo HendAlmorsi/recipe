@@ -1,11 +1,15 @@
 package com.assignment.recipe.controllers;
 
 import com.assignment.recipe.models.Recipe;
+import com.assignment.recipe.models.UserDetailsModel;
 import com.assignment.recipe.services.RecipeService;
+import com.assignment.recipe.services.UserService;
 import java.util.List;
 import java.util.NoSuchElementException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,12 +20,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@PreAuthorize("hasRole('ADMIN') || hasRole('USER')")
 @RequestMapping("/recipes")
 public class RecipeController {
     final RecipeService recipeService;
+    final UserService userService;
 
-    public RecipeController(RecipeService recipeService) {
+    public RecipeController(
+            RecipeService recipeService, UserService userService) {
         this.recipeService = recipeService;
+        this.userService = userService;
     }
 
     @GetMapping("")
@@ -39,7 +47,8 @@ public class RecipeController {
         }
     }
     @PostMapping("/")
-    public void add(@RequestBody Recipe recipe) {
+    public void add(@RequestBody Recipe recipe, @AuthenticationPrincipal UserDetailsModel userDetails) {
+        recipe.setUser(userService.getUserByEmail(userDetails.getUsername()));
         recipeService.save(recipe);
     }
     @PutMapping("/{id}")

@@ -16,7 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
-//@EnableGlobalMethodSecurity(prePostEnabled = true,securedEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     final UserDetailsService userDetailsService;
@@ -35,11 +35,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
     }
 
+    // Future changes JWT security implementation instead of basic auth
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/users").hasAuthority(ADMIN)
-                .antMatchers("/recipes").hasAnyRole(USER)
+                .antMatchers("/users").access("hasAnyRole('ADMIN')")
+                .antMatchers("/recipes").access("hasAnyRole('USER', 'ADMIN')")
                 .antMatchers("/register").permitAll()
                 .anyRequest().authenticated();
 

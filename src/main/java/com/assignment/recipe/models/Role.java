@@ -1,6 +1,7 @@
 package com.assignment.recipe.models;
 
 import java.util.Collection;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,7 +20,7 @@ public class Role {
     private String name;
 
     @ManyToMany(mappedBy = "roles")
-    private Collection<User> users;
+    private Set<User> users;
 
     public Long getId() {
         return id;
@@ -53,7 +54,7 @@ public class Role {
         return users;
     }
 
-    public void setUsers(Collection<User> users) {
+    public void setUsers(Set<User> users) {
         this.users = users;
     }
 }

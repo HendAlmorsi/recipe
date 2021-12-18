@@ -1,7 +1,9 @@
 package com.assignment.recipe.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -24,6 +26,7 @@ public class User {
     private String firstName;
     private String lastName;
     private String email;
+    @JsonIgnore
     private String password;
 
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.EAGER)
@@ -32,22 +35,12 @@ public class User {
             ),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"
             ))
-    private List<Role> roles;
+    private Set<Role> roles;
 
     @OneToMany(
+            mappedBy="user",
             cascade = CascadeType.ALL,
             orphanRemoval = true
-    )
-    @JoinTable(
-            name = "user_recipe",
-            joinColumns = @JoinColumn(
-                    name = "user_id",
-                    referencedColumnName = "id"
-            ),
-            inverseJoinColumns = @JoinColumn(
-                    name = "recipe_id",
-                    referencedColumnName = "id"
-            )
     )
     private List<Recipe> recipes;
 
@@ -113,7 +106,7 @@ public class User {
                 .collect(Collectors.toList());
     }
 
-    public void setRoles(List<Role> roles) {
+    public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
 

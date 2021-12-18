@@ -1,0 +1,10 @@
+com/assignment/recipe/models/Ingredient.class
+com/assignment/recipe/controllers/RecipeController.class
+com/assignment/recipe/repositories/RecipeRepository.class
+com/assignment/recipe/controllers/UserController.class
+com/assignment/recipe/RecipeApplication.class
+com/assignment/recipe/repositories/UserRepository.class
+com/assignment/recipe/models/Recipe.class
+com/assignment/recipe/services/RecipeService.class
+com/assignment/recipe/models/User.class
+com/assignment/recipe/services/UserService.class

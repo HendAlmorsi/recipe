@@ -1,8 +1,6 @@
 package com.assignment.recipe.services;
 
-import static com.assignment.recipe.models.Role.ADMIN;
 import static com.assignment.recipe.models.Role.USER;
-import static com.assignment.recipe.models.Role.getUserRole;
 
 import com.assignment.recipe.dto.UserDto;
 import com.assignment.recipe.exceptions.ItemNotFoundException;
@@ -11,6 +9,7 @@ import com.assignment.recipe.models.User;
 import com.assignment.recipe.repositories.RoleRepository;
 import com.assignment.recipe.repositories.UserRepository;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import javax.transaction.Transactional;
@@ -43,7 +42,7 @@ public class UserService {
         user.setLastName(userDto.getLastName());
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         user.setEmail(userDto.getEmail());
-        user.setRoles(Arrays.asList(createRoleIfNotFound(USER),createRoleIfNotFound(ADMIN)));
+        user.setRoles(new HashSet(Arrays.asList(createRoleIfNotFound(USER))));
         return userRepository.save(user);
     }
 
@@ -64,6 +63,10 @@ public class UserService {
 
     public User getUser(Long id) {
         return userRepository.findById(id).get();
+    }
+
+     public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email).get();
     }
 
     public void deleteUser(Long id) {

@@ -1,0 +1,136 @@
+# 1) test registration
+Given: User 'user' is not in the system
+When: 'user' send request to "/register" with body
+    {
+        "firstName": "fname",
+        "lastName": "lname",
+        "password": "1234",
+        "matchingPassword": "1234",
+        "email": "user@test.com"
+    }
+Then: 'user' should be created in database with id
+When: 'user' call GET "/recipes"
+Then: list of recipes should be visible
+-----------------------------------------------
+
+# 2) test registration validation failure - password doesn't match
+Given: User 'user' is not in the system
+When: 'user' send POST request to "/register" with body
+    {
+        "firstName": "fname",
+        "lastName": "lname",
+        "password": "1234",
+        "matchingPassword": "1235",
+        "email": "user@test.com"
+    }
+Then: Error code will be returned
+-----------------------------------------------
+
+# 3) test registration validation failure - email already exists
+Given: User 'user' is saved in the database with email "user@test.com"
+When: 'user2' send POST request to "/register" with body
+    {
+        "firstName": "fname",
+        "lastName": "lname",
+        "password": "1234",
+        "matchingPassword": "1235",
+        "email": "user@test.com"
+    }
+Then: Error code will be returned
+-----------------------------------------------
+
+# 4) test registration authorization failure
+When: send GET request to "/recipes"
+Then: Error code 401 unauthorized will be returned
+-----------------------------------------------
+
+# 5) test recipe creation
+Given: User 'user' is saved in the database with ADMIN role
+When: 'user' send POST request to "/recipes" with body
+    {
+        "isVegetarian": true,
+        "numberOfPeople": 2,
+        "ingredients": [{"name": "orange", "count": 2}],
+        "instruction": "blabla"
+    }
+Then: recipe should be created in database with new id and new creation timestamp
+When: 'user' call GET "/recipes"
+Then: recipe should show up in the list of recipes
+When: 'user' call GET "/users"
+Then: 'user' should show have the created recipe in his recipes
+-----------------------------------------------
+
+# 6) test get recipe
+Given: User 'user' is saved in the database with USER role
+And: Recipe with id '100' is saved in the database
+When: 'user' send GET request to "/recipes/100"
+Then: recipe should be returned
+-----------------------------------------------
+
+# 7) test delete recipe
+Given: User 'user' is saved in the database with USER role
+And: Recipe with id '100' is saved in the database
+When: 'user' send DELETE request to "/recipes/100"
+Then: Success code should be returned
+When: 'user' send GET request to "/recipes/100"
+Then: Not found error code should be returned
+-----------------------------------------------
+
+# 8) test update recipe
+Given: User 'user' is saved in the database with USER role
+And: Recipe with id '100' is saved in the database with instruction equal "blabla"
+When: 'user' send PUT request to "/recipes/100" with body
+    {
+        "isVegetarian": true,
+        "numberOfPeople": 2,
+        "ingredients": [{"name": "apple", "count": 2}, {"name": "orange", "count": 2}],
+        "instruction": "blablo"
+    }
+Then: Success code should be returned
+When: 'user' send GET request to "/recipes/100"
+Then: recipe instruction should be equal to "blablo" and new ingredient should be added
+-----------------------------------------------
+
+# 9) test update user - update email not allowed
+Given: User 'user' is saved in the database with ADMIN role
+And: User 'user-to-update' with id '10' is saved in the database with email equal "email@email.com"
+When: 'user' send PUT request to "/users/10" with body
+{
+    "firstName": "user",
+    "lastName": "update",
+    "email": "new.email@email.com"",
+    "roles": [
+        "USER"
+    ],
+    "recipes": []
+}
+Then: Error code should be returned
+-----------------------------------------------
+
+# 10) test update user - remove admin role
+Given: User 'user' is saved in the database with ADMIN role
+And: User data in the database is the following
+{
+    "firstName": "new user",
+    "lastName": "update",
+    "email": "email@email.com"",
+    "roles": [
+        "ADMIN",
+        "USER"
+    ],
+    "recipes": []
+}
+When: 'user' send PUT request to "/users/10" with body
+{
+    "firstName": "new user",
+    "lastName": "update",
+    "email": "email@email.com"",
+    "roles": [
+        "USER"
+    ],
+    "recipes": []
+}
+Then: Success code returned
+When: Call GET "/users"
+Then: Error code 401 Unauthorized
+-----------------------------------------------

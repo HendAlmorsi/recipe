@@ -1,15 +1,21 @@
 package com.assignment.recipe.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDateTime;
 import java.util.List;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -18,13 +24,13 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Table(name = "recipes")
 public class Recipe {
     @Id
-    @GeneratedValue
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_seq")
+    @SequenceGenerator(initialValue = 1, name = "id_seq", sequenceName = "id_sequence")
     private Long id;
     @CreationTimestamp()
     @DateTimeFormat(pattern="dd‐MM‐yyyy HH:mm")
     private LocalDateTime creationTimestamp;
-    private String isVegetarian;
+    private boolean isVegetarian;
     private int numberOfPeople;
     @OneToMany(
             cascade = CascadeType.ALL,
@@ -44,9 +50,16 @@ public class Recipe {
     private List<Ingredient> ingredients ;
     private String instruction;
 
+    @ManyToOne(
+            fetch = FetchType.LAZY
+    )
+    @JoinColumn(name="user_id", nullable=false, insertable=false, updatable=false)
+    @JsonIgnore
+    private User user;
+
     public Recipe() {}
 
-    public Recipe(Long id, LocalDateTime creationTimestamp, String isVegetarian, int numberOfPeople, List<Ingredient> ingredients, String instruction) {
+    public Recipe(Long id, LocalDateTime creationTimestamp, boolean isVegetarian, int numberOfPeople, List<Ingredient> ingredients, String instruction) {
         this.id = id;
         this.creationTimestamp = creationTimestamp;
         this.isVegetarian = isVegetarian;
@@ -71,11 +84,11 @@ public class Recipe {
         this.creationTimestamp = creationTimestamp;
     }
 
-    public String getIsVegetarian() {
+    public boolean getIsVegetarian() {
         return isVegetarian;
     }
 
-    public void setIsVegetarian(String isVegetarian) {
+    public void setIsVegetarian(boolean isVegetarian) {
         this.isVegetarian = isVegetarian;
     }
 
@@ -101,5 +114,13 @@ public class Recipe {
 
     public void setInstruction(String instruction) {
         this.instruction = instruction;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
