@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      - MYSQL_DATABASE=db_test
+      - MYSQL_ROOT_PASSWORD=root
+      - DATABASE_USER=test
+      - DATABASE_PASSWORD=test
+    ports:
+      - 3309:3306
+    volumes:
+      - ${HOME}/db-test:/var/lib/mysql/
+  app:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+    working_dir: /app
+    command: [sh, -c, 'mkdir -p ~/logs/; cd /src ; mvn clean spring-boot:run -Dspring.profiles.active=local -DLOG_DIR=/root/logs/ -DLOG_FILE=hubstamper.log']
+    ports:
+      - 8080:8080
+    volumes:
+      - "${HOME}/.m2:/root/.m2"
