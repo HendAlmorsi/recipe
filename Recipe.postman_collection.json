@@ -1,0 +1,283 @@
+{
+	"info": {
+		"_postman_id": "a485b7f0-6c00-4431-bb88-848c7f7eb1fe",
+		"name": "Recipe",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "localhost:8080/ recipes",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"isVegetarian\": true,\n    \"numberOfPeople\": 2,\n    \"ingredients\": [{\"name\": \"apple\", \"count\": 2}, {\"name\": \"orange\", \"count\": 2}],\n    \"instruction\": \"blablo\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/recipes/303",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"recipes",
+						"303"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/ recipes",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"isVegetarian\": true,\n    \"numberOfPeople\": 2,\n    \"ingredients\": [{\"name\": \"apple\", \"count\": 2}],\n    \"instruction\": \"blabla\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/recipes/",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"recipes",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/recipes all",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/recipes/",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"recipes",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/recipes/id",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/recipes/303",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"recipes",
+						"303"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/recipes/id",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/recipes/102",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"recipes",
+						"102"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/user/id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/users/6",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/user/id",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\": \"bebe\",\n    \"lastName\": \"Khalifa\",\n    \"email\": \"test7@test.com\",\n    \"roles\": [\n        \"ADMIN\",\n        \"USER\"\n    ],\n    \"recipes\": [\n        {\n            \"id\": 152,\n            \"creationTimestamp\": \"2021-12-18T16:20:30\",\n            \"isVegetarian\": true,\n            \"numberOfPeople\": 2,\n            \"ingredients\": [\n                {\n                    \"name\": \"orange\",\n                    \"count\": 2\n                }\n            ],\n            \"instruction\": \"blabla\"\n        },\n        {\n            \"id\": 252,\n            \"creationTimestamp\": \"2021-12-18T16:36:26\",\n            \"isVegetarian\": true,\n            \"numberOfPeople\": 2,\n            \"ingredients\": [\n                {\n                    \"name\": \"orange\",\n                    \"count\": 2\n                }\n            ],\n            \"instruction\": \"blabla\"\n        },\n        {\n            \"id\": 302,\n            \"creationTimestamp\": \"2021-12-18T16:59:26\",\n            \"isVegetarian\": true,\n            \"numberOfPeople\": 2,\n            \"ingredients\": [\n                {\n                    \"name\": \"orange\",\n                    \"count\": 2\n                }\n            ],\n            \"instruction\": \"blabla\"\n        },\n        {\n            \"id\": 303,\n            \"creationTimestamp\": null,\n            \"isVegetarian\": true,\n            \"numberOfPeople\": 2,\n            \"ingredients\": [\n                {\n                    \"name\": \"apple\",\n                    \"count\": 2\n                },\n                {\n                    \"name\": \"orange\",\n                    \"count\": 2\n                }\n            ],\n            \"instruction\": \"blablo\"\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/users/6",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/users/",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\": \"bebe\",\n    \"lastName\": \"Khalifa\",\n    \"password\": \"1234\",\n    \"matchingPassword\": \"1234\",\n    \"email\": \"test10@test.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/register",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "username",
+				"value": "test7@test.com",
+				"type": "string"
+			},
+			{
+				"key": "password",
+				"value": "1234",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
